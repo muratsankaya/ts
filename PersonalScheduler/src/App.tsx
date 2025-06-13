@@ -2,9 +2,25 @@ import { useState } from 'react';
 import reactLogo from './assets/react.svg';
 import viteLogo from '/vite.svg';
 import './App.css';
+import { auth } from './config/firebase';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 function App() {
   const [count, setCount] = useState(0);
+  const email = 'jonhdoe@outlook.com';
+  const password = '1234567';
+  createUserWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+      // Signed up
+      const user = userCredential.user;
+      console.log(user);
+      // ...
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // ..
+    });
 
   return (
     <>
