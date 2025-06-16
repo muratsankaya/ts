@@ -24,10 +24,19 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  /* Use a modern, system-font stack for cross-platform consistency */
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* A common and highly recommended CSS reset for consistent box model behavior.
+  This makes layout work much more predictable.
+*/
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 h1 {

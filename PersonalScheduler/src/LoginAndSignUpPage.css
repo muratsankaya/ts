@@ -1,0 +1,142 @@
+
+/* Container to center the form on the page */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 1rem;
+}
+
+
+/* The form itself */
+.login-form {
+  width: 100%;
+  max-width: 350px;
+  padding: 2rem;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+}
+
+.login-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin-top: 0;
+  margin-bottom: 2rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #000000;
+  background-color: #ffffff;
+  color: #000000;
+  box-sizing: border-box;
+}
+
+.input-field:focus {
+  outline: 1px solid #000000;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Wrapper for the password input to contain the icon */
+.password-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Make sure the password input has padding on the right to not overlap with the icon */
+.password-input-wrapper .input-field {
+  padding-right: 2.5rem; /* 40px */
+}
+
+/* Styles for the toggle icon */
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem; /* 12px */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #000000;
+  display: flex; /* Helps with vertical alignment of the icon */
+  align-items: center;
+}
+
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: 1px solid #000000;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.button.primary {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.button.primary:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.button.secondary {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.button.secondary:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.error {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-family: 'Times New Roman', Times, serif;
+  color: red;
+  font-size: 0.85rem;
+}
+
+/* A keyframes animation for the shake effect.
+  It moves the element left and right quickly.
+*/
+@keyframes shake {
+  10%, 90% {
+    transform: translateX(-1px);
+  }
+  20%, 80% {
+    transform: translateX(2px);
+  }
+  30%, 50%, 70% {
+    transform: translateX(-4px);
+  }
+  40%, 60% {
+    transform: translateX(4px);
+  }
+}
+
+/* The class that will apply the animation */
+.shake {
+  animation: shake 0.6s ease-in-out;
+}
