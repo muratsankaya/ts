@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import './LoginAndSignUpPage.css';
+import { auth } from './config/firebase';
 
 interface LoginAndSignUpPageProps {}
 
-function hasNanAlphanumericChar(s: string): boolean {
+function hasNonAlphanumericChar(s: string): boolean {
   for (const c of `^$*.[]{}()?"!@#%&/\\,><':;|_~`) {
     if (s.includes(c)) return true;
   }
@@ -17,32 +19,45 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
   const [error, setError] = useState<string>('');
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isShaking, setIsShaking] = useState<boolean>(false);
+  const [highlightPassword, setHighlightPassword] = useState<boolean>(false);
 
   // This handler is for the primary form action: logging in
   const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
+    if (password === '') {
+      setHighlightPassword(true);
+      return;
+    }
+
     if (error) {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600); // Duration should match CSS animation
       return;
     }
-
-    // --- Your login logic goes here ---
-    console.log('Attempting Login with:', { email, password });
-    alert(`Login attempt with Email: ${email}`);
   };
 
   // This handler is for the secondary action: signing up
   const handleSignUpClick = () => {
+    if (password === '') {
+      setHighlightPassword(true);
+      return;
+    }
+
     if (error) {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600); // Duration should match CSS animation
       return;
     }
+
     // --- Your sign-up navigation or modal logic goes here ---
-    console.log('Redirecting to Sign Up page or showing modal.');
-    alert('Sign Up button clicked!');
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        console.log(userCredential);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
@@ -50,6 +65,7 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
       setError('');
       return;
     }
+    setHighlightPassword(false);
     if (password.length < 8)
       setError('Pasword must be at least 8 characters long');
     else if (password.length > 4096)
@@ -57,11 +73,11 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
     else if (password === password.toUpperCase())
       setError('Password must contain a lowercase character');
     else if (password === password.toLowerCase())
-      setError('Password must contain a upercase character');
+      setError('Password must contain an uppercase character');
     // /\d/ is a regular expression that looks for a numeric character
     else if (!/\d/.test(password))
       setError('Password must contain a numeric letter');
-    else if (!hasNanAlphanumericChar(password))
+    else if (!hasNonAlphanumericChar(password))
       setError('Password must contain at least 1 alphanumeric character.');
     else setError('');
   }, [password]);
@@ -89,7 +105,7 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="input-field"
+              className={`input-field ${highlightPassword ? 'input-error-highlight' : ''}`}
               required
             />
             <span
