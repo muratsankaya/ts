@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import './LoginAndSignUpPage.css';
@@ -20,6 +20,7 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
   const [isShaking, setIsShaking] = useState<boolean>(false);
   const [highlightPassword, setHighlightPassword] = useState<boolean>(false);
+  const formRef = useRef<HTMLFormElement>(null);
 
   // This handler is for the primary form action: logging in
   const handleLoginSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -39,6 +40,14 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
 
   // This handler is for the secondary action: signing up
   const handleSignUpClick = () => {
+    const form = formRef.current;
+
+    // reportValidity() checks the form and shows the browser's error UI if invalid.
+    // It returns `false` if the form is invalid.
+    if (!form || !form.reportValidity()) {
+      return;
+    }
+
     if (password === '') {
       setHighlightPassword(true);
       return;
@@ -84,7 +93,7 @@ const LoginAndSignUpPage: React.FC<LoginAndSignUpPageProps> = () => {
 
   return (
     <div className="login-container">
-      <form onSubmit={handleLoginSubmit} className="login-form">
+      <form ref={formRef} onSubmit={handleLoginSubmit} className="login-form">
         <div className="input-group">
           <label htmlFor="email">Email</label>
           <input
